@@ -1,0 +1,58 @@
+/* 全体の基本設定 */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #f9fafb;
+  color: #333;
+}
+
+/* リンクのホバー効果 */
+a {
+  transition: color 0.3s;
+}
+a:hover {
+  color: #0056b3;
+}
+
+/* カードスタイルの調整 */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* 画像のスタイル */
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* 記事詳細ページの調整 */
+.post-detail img {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* コメントエリアの調整 */
+.comment-list {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+.comment-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* フッター */
+footer {
+  background: #e9ecef;
+}
+
+/* その他の調整 */
+.container {
+  max-width: 960px;
+}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>管理者ログイン</h2>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.password.label }}<br>
+    {{ form.password(size=32) }}
+  </p>
+  <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

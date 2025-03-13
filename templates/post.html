@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="post-detail">
+  <h2 class="mb-3">{{ post.title }}</h2>
+  {% if post.category %}
+    <p><strong>カテゴリー:</strong> {{ post.category }}</p>
+  {% endif %}
+  <p class="text-muted"><small>投稿日: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small></p>
+  {% if post.image_filename %}
+    <img src="{{ url_for('static', filename='uploads/' ~ post.image_filename) }}" alt="{{ post.title }}" class="img-fluid mb-4">
+  {% endif %}
+  <div class="mb-4">
+    <p>{{ post.content }}</p>
+  </div>
+  <div class="d-flex align-items-center mb-4">
+    <span class="me-2"><strong>いいね:</strong> {{ post.likes }}</span>
+    <!-- いいねボタン -->
+    <form action="{{ url_for('like_post', post_id=post.id) }}" method="post" class="me-3">
+      <button type="submit" class="btn btn-sm btn-outline-primary">いいね</button>
+    </form>
+    <!-- シェアリンク（Twitter例） -->
+    <a href="https://twitter.com/intent/tweet?url={{ request.url }}" target="_blank" class="btn btn-sm btn-outline-info me-3">Twitterでシェア</a>
+    {% if session.get('admin') %}
+      <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-sm btn-warning me-2">編集</a>
+      <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post" class="d-inline" onsubmit="return confirm('本当に削除しますか？');">
+        <button type="submit" class="btn btn-sm btn-danger">削除</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <hr>
+  <!-- コメントエリア -->
+  <section class="comment-section">
+    <h4>コメント</h4>
+    {% if post.comments %}
+      <ul class="list-unstyled comment-list">
+        {% for comment in post.comments %}
+          <li>
+            <strong>{{ comment.author }}</strong> <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
+            {{ comment.content }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>コメントはまだありません。</p>
+    {% endif %}
+    <!-- コメント投稿フォーム -->
+    <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post" class="mt-4">
+      <div class="mb-3">
+        <label for="author" class="form-label">お名前</label>
+        <input type="text" name="author" id="author" class="form-control" placeholder="お名前（省略可）">
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">コメント</label>
+        <textarea name="content" id="content" rows="3" class="form-control" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">コメントを投稿</button>
+    </form>
+  </section>
+
+  <a href="{{ url_for('index') }}" class="btn btn-secondary mt-4">一覧に戻る</a>
+</article>
+{% endblock %}
