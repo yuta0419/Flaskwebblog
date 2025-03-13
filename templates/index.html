@@ -4,10 +4,10 @@
   <div class="row">
     {% for post in posts %}
       <div class="col-md-4 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
           <a href="{{ url_for('view_post', post_id=post.id) }}" class="text-decoration-none text-dark">
-            {% if post.image_filename %}
-              <img src="{{ url_for('static', filename='uploads/' ~ post.image_filename) }}" class="card-img-top" alt="{{ post.title }}">
+            {% if post.thumbnail_filename %}
+              <img src="{{ url_for('static', filename='uploads/' ~ post.thumbnail_filename) }}" class="card-img-top" alt="{{ post.title }}">
             {% else %}
               <img src="{{ url_for('static', filename='images/placeholder.png') }}" class="card-img-top" alt="No image">
             {% endif %}
@@ -15,8 +15,11 @@
               <h5 class="card-title">{{ post.title }}</h5>
               {% if post.category %}
                 <p class="card-text">
-                  <small class="text-muted">カテゴリー:
-                    <a href="{{ url_for('filter_by_category', category_name=post.category) }}" class="text-decoration-none">{{ post.category }}</a>
+                  <small class="text-muted">
+                    カテゴリー:
+                    <a href="{{ url_for('filter_by_category', category_name=post.category) }}" class="text-decoration-none">
+                      {{ post.category }}
+                    </a>
                   </small>
                 </p>
               {% endif %}

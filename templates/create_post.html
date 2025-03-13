@@ -3,18 +3,28 @@
   <h2>記事作成 / 編集</h2>
   <form method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
-    <p>
-      {{ form.title.label }}<br>
-      {{ form.title(size=64) }}
-    </p>
-    <p>
-      {{ form.content.label }}<br>
-      {{ form.content(rows=10, cols=40) }}
-    </p>
-    <p>
-      {{ form.image.label }}<br>
-      {{ form.image() }}
-    </p>
-    <p>{{ form.submit() }}</p>
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.category.label(class="form-label") }}
+      {{ form.category(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.tags.label(class="form-label") }}
+      {{ form.tags(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.content.label(class="form-label") }}
+      {{ form.content() }}
+    </div>
+    <div class="mb-3">
+      {{ form.thumbnail.label(class="form-label") }}
+      {{ form.thumbnail() }}
+    </div>
+    <div class="mb-3">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
   </form>
 {% endblock %}
