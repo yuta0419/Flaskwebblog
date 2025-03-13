@@ -9,6 +9,7 @@ from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 from PIL import Image
 import pillow_heif
+from wtforms import TextAreaField
 
 # HEIC形式の画像を扱えるようにする
 pillow_heif.register_heif_opener()
@@ -66,6 +67,22 @@ class LoginForm(FlaskForm):
     submit = SubmitField('ログイン')
 
 ADMIN_PASSWORD = 'admin123'
+
+
+class Inquiry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    subject = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class ContactForm(FlaskForm):
+    name = StringField('お名前', validators=[DataRequired()])
+    email = StringField('メールアドレス', validators=[DataRequired()])
+    subject = StringField('件名', validators=[DataRequired()])
+    message = TextAreaField('お問い合わせ内容', validators=[DataRequired()])
+    submit = SubmitField('送信')
 
 # -------------------------------
 # CKEditor 画像アップロード用ルート
@@ -266,6 +283,30 @@ def delete_post(post_id):
     db.session.commit()
     flash('記事が削除されました', 'success')
     return redirect(url_for('index'))
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        inquiry = Inquiry(
+            name=form.name.data,
+            email=form.email.data,
+            subject=form.subject.data,
+            message=form.message.data
+        )
+        db.session.add(inquiry)
+        db.session.commit()
+        flash('お問い合わせを送信しました。管理者が確認次第、ご連絡いたします。', 'success')
+        return redirect(url_for('index'))
+    return render_template('contact.html', form=form)
+
+@app.route('/admin/inquiries')
+def admin_inquiries():
+    if not session.get('admin'):
+        flash('管理者権限がありません', 'danger')
+        return redirect(url_for('index'))
+    inquiries = Inquiry.query.order_by(Inquiry.created_at.desc()).all()
+    return render_template('admin_inquiries.html', inquiries=inquiries)
 
 
 # -------------------------------

@@ -30,6 +30,9 @@
               <a class="nav-link" href="{{ url_for('create_post') }}">記事作成</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin_inquiries') }}">お問い合わせ確認</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{ url_for('admin_logout') }}">ログアウト</a>
             </li>
           {% else %}
@@ -37,6 +40,11 @@
               <a class="nav-link" href="{{ url_for('admin_login') }}">管理者ログイン</a>
             </li>
           {% endif %}
+
+          <!-- お問い合わせボタンを追加 -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact') }}">お問い合わせ</a>
+          </li>
         </ul>
         <!-- 検索フォーム -->
         <form class="d-flex" action="{{ url_for('search') }}" method="get">
@@ -45,8 +53,8 @@
         </form>
       </div>
     </div>
-  </nav>
 
+  </nav>
   <!-- コンテンツエリア -->
   <div class="container my-5">
     {% with messages = get_flashed_messages(with_categories=true) %}
