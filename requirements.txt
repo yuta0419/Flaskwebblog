@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+WTForms
+Werkzeug
+pillow
+pillow-heif
